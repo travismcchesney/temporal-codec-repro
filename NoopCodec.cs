@@ -13,11 +13,14 @@ public sealed class NoopCodec : IPayloadCodec
     public Task<IReadOnlyCollection<Payload>> EncodeAsync(IReadOnlyCollection<Payload> payloads)
     {
         return Task.FromResult<IReadOnlyCollection<Payload>>
-            (payloads.Select(payload => payload.Clone()).ToImmutableList());
+            (payloads.Select(payload => payload).ToList());
     }
 
-    public Task<IReadOnlyCollection<Payload>> DecodeAsync(IReadOnlyCollection<Payload> payloads) =>
-        Task.FromResult(payloads);
+    public Task<IReadOnlyCollection<Payload>> DecodeAsync(IReadOnlyCollection<Payload> payloads)
+    {
+        return Task.FromResult<IReadOnlyCollection<Payload>>
+            (payloads.Select(payload => payload).ToList());
+    }
     
     private static IReadOnlyCollection<Payload> TransformPayloads(
         IReadOnlyCollection<Payload> payloads,
